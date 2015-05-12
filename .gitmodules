@@ -1,0 +1,3 @@
+[submodule "thirdparty/nodejs/yunpiansms"]
+	path = thirdparty/nodejs/yunpiansms
+	url = https://github.com/ivershuo/yunpiansms
