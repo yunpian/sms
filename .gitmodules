@@ -1,3 +1,6 @@
 [submodule "thirdparty/nodejs/yunpiansms"]
 	path = thirdparty/nodejs/yunpiansms
 	url = https://github.com/ivershuo/yunpiansms
+[submodule "thirdparty/ruby/smart_sms"]
+	path = thirdparty/ruby/smart_sms
+	url = https://github.com/lyfeyaj/smart_sms.git
