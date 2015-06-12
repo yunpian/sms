@@ -50,7 +50,7 @@ public class YunpianSmsApiTest extends TestCase {
     //如果变量名或者变量值中带有#&=%中的任意一个特殊符号，需要先分别进行urlencode编码
     //如code值是#1234#,需作如下编码转换
     String codeValue = encode(code);
-    String tpl_value = "#code#=" + codeValue ;
+    String tpl_value = "#code#=" + codeValue;
     SendSmsResult sendSmsResult = YunpianSmsApi.tplSendSms(tpl_id, tpl_value, mobileNo);
     assertNotNull(sendSmsResult);
     assertTrue(sendSmsResult.isSuccess());

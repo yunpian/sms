@@ -10,29 +10,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
-import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import javax.net.ssl.SSLContext;
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +41,9 @@ public class YunpianSmsApi {
 
   private static String API_KEY = ApiConfig.getApiKey();
 
+  //thread safe
+  private static final CloseableHttpClient httpClient = HttpClients.createDefault();
+
   /**
    * 取账户信息
    *
@@ -71,7 +57,7 @@ public class YunpianSmsApi {
       String json = post(URI_GET_USER_INFO, params);
       return JsonUtil.fromJson(json, GetUserInfoResult.class);
     } catch (Exception e) {
-      throw new ApiException("Invoice Api Failed", e);
+      throw new ApiException("Invoke Api Failed", e);
     }
   }
 
@@ -92,7 +78,7 @@ public class YunpianSmsApi {
       String post = post(URI_SEND_SMS, params);
       return JsonUtil.fromJson(post, SendSmsResult.class);
     } catch (Exception e) {
-      throw new ApiException("Invoice Api Failed", e);
+      throw new ApiException("Invoke Api Failed", e);
     }
   }
 
@@ -115,42 +101,8 @@ public class YunpianSmsApi {
       String post = post(URI_TPL_SEND_SMS, params);
       return JsonUtil.fromJson(post, SendSmsResult.class);
     } catch (Exception e) {
-      throw new ApiException("Invoice Api Failed", e);
+      throw new ApiException("Invoke Api Failed", e);
     }
-  }
-
-  private static boolean isSecurity(String url) {
-    return url.startsWith("https://");
-  }
-
-  private static CloseableHttpClient getHttpClient(String url) {
-    if (isSecurity(url)) {
-      RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.<ConnectionSocketFactory>create();
-      ConnectionSocketFactory plainSF = new PlainConnectionSocketFactory();
-      registryBuilder.register("http", plainSF);
-      try {
-        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        TrustStrategy anyTrustStrategy = new TrustStrategy() {
-          @Override
-          public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-            return true;
-          }
-        };
-        SSLContext sslContext = SSLContexts.custom().useSSL().loadTrustMaterial(trustStore, anyTrustStrategy).build();
-        LayeredConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-        registryBuilder.register("https", sslSF);
-      } catch (KeyStoreException e) {
-        throw new RuntimeException(e);
-      } catch (KeyManagementException e) {
-        throw new RuntimeException(e);
-      } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException(e);
-      }
-      Registry<ConnectionSocketFactory> registry = registryBuilder.build();
-      PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(registry);
-      return HttpClientBuilder.create().setConnectionManager(connManager).build();
-    }
-    return HttpClients.createDefault();
   }
 
   /**
@@ -160,12 +112,14 @@ public class YunpianSmsApi {
    * @param paramsMap 提交<参数，值>Map
    * @return 提交响应
    */
-  public static String post(String url, Map<String, String> paramsMap) throws Exception{
-    CloseableHttpClient client = getHttpClient(url);
+  public static String post(String url, Map<String, String> paramsMap) throws Exception {
+    //reuse httpclient to keepalive to the server
+    //keepalive in https will save time on tcp handshaking.
+    CloseableHttpClient client = httpClient;
     String responseText = "";
+    HttpPost method = new HttpPost(url);
     CloseableHttpResponse response = null;
     try {
-      HttpPost method = new HttpPost(url);
       if (paramsMap != null) {
         List<NameValuePair> paramList = new ArrayList<NameValuePair>();
         for (Map.Entry<String, String> param : paramsMap.entrySet()) {
@@ -175,18 +129,14 @@ public class YunpianSmsApi {
         method.setEntity(new UrlEncodedFormEntity(paramList, ENCODING));
       }
       response = client.execute(method);
-      client.execute(method);
       HttpEntity entity = response.getEntity();
       if (entity != null) {
         responseText = EntityUtils.toString(entity);
       }
     } finally {
+      //must close the response or will lead to next request hang.
       if (response != null) {
-        try {
-          response.close();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        response.close();
       }
     }
     return responseText;
