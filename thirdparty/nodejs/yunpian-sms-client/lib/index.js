@@ -74,7 +74,7 @@ yunpainSMSClient.prototype.sendSMSByTemplate = function (path, callback) {
     }
 
     if (!this.templateId || !this.templateValue) {
-        var err = new Error('模板信息不能为空!');
+        var err = new Error('illegal templateId or templateValue!');
         callback(err);
         return;
     }
