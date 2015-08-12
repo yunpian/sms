@@ -12,11 +12,15 @@ var VERSION = JSON.parse(fs.readFileSync(path.normalize(__dirname + '../../packa
 
 function yunpainSMSClient(options) {
     if (!options.apiKey) {
-        throw new Error("illegal apiKey!");
+        throw new Error("「apiKey不能为空」!");
     }
 
-    if (!options.mobile || options.mobile.length <= 1) {
-        throw new Error("illegal mobile!");
+    if (!options.mobile || options.mobile.length < 1) {
+        throw new Error("「手机号不能为空」!");
+    }
+
+    if (!util.isArray(options.mobile)) {
+        options.mobile = [options.mobile];
     }
 
     this.url = options.url || 'http://yunpian.com';

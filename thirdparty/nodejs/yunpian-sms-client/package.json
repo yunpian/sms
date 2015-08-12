@@ -1,6 +1,6 @@
 {
   "name": "yunpian-sms-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "yunpian sms nodejs client",
   "main": "lib/index.js",
   "scripts": {
