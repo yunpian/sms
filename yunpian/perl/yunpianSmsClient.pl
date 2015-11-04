@@ -7,7 +7,7 @@ use LWP;
 #修改为您的apikey.可在官网（http://www.yuanpian.com)登录后用户中心首页看到
 my $apikey = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 #修改为您要发送的手机号码，多个号码用逗号隔开
-my $mobile = '12312312312';
+my $mobile = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 #修改为您要发送的短信内容
 my $text = '【云片网】您的验证码是1234';
 

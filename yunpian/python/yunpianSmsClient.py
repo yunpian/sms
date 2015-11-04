@@ -38,7 +38,7 @@ def get_user_info(apikey):
 
 def send_sms(apikey, text, mobile):
     """
-    能用接口发短信
+    通用接口发短信
     """
     params = urllib.urlencode({'apikey': apikey, 'text': text, 'mobile':mobile})
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -64,7 +64,7 @@ def tpl_send_sms(apikey, tpl_id, tpl_value, mobile):
 
 def send_voice_sms(apikey, code, mobile):
     """
-    能用接口发短信
+    通用接口发短信
     """
     params = urllib.urlencode({'apikey': apikey, 'code': code, 'mobile':mobile})
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -76,8 +76,11 @@ def send_voice_sms(apikey, code, mobile):
     return response_str
 
 if __name__ == '__main__':
-    apikey = "a4b3f38430ef7be6704b03181e76e7ca"
-    mobile = "18812412312"
+    #修改为您的apikey.可在官网（http://www.yuanpian.com)登录后用户中心首页看到
+    apikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    #修改为您要发送的手机号码，多个号码用逗号隔开
+    mobile = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    #修改为您要发送的短信内容
     text = "您的验证码是1234【云片网】"
     #查账户信息
     print(get_user_info(apikey))
