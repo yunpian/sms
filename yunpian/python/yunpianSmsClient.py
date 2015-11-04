@@ -38,7 +38,7 @@ def get_user_info(apikey):
 
 def send_sms(apikey, text, mobile):
     """
-    能用接口发短信
+    通用接口发短信
     """
     params = urllib.urlencode({'apikey': apikey, 'text': text, 'mobile':mobile})
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -64,7 +64,7 @@ def tpl_send_sms(apikey, tpl_id, tpl_value, mobile):
 
 def send_voice_sms(apikey, code, mobile):
     """
-    能用接口发短信
+    通用接口发短信
     """
     params = urllib.urlencode({'apikey': apikey, 'code': code, 'mobile':mobile})
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
