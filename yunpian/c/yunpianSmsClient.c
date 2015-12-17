@@ -15,19 +15,19 @@ bingone
 下载地址 https://curl.haxx.se/download.html
 
 */
-// 修改为您的apikey
+// 修改为您的apikey(https://www.yunpian.com)登陆官网后获取
 char *apikey = "xxxxxxxxxxxxxxxx";
 // 修改为您要发送的手机号
 char *mobile = "xxxxxxxxxxxxxxxx";
 // 设置您要发送的内容
 char *text = "【云片网】您的验证码是1234";
 // 指定发送的模板id
-int tpl_id = 1176663;
+int tpl_id = 1;
 // 指定发送模板内容
 
 
-//char *tpl_data[4] = {"#code#","1234","#company#","云片网"};
-char *tpl_data[4] = {"#send_tim*/.:#&=%e#","123#4","#cos&=*!@#$%^&*()-_+={}\\\'de#","asdf"};
+char *tpl_data[4] = {"#code#","1234","#company#","云片网"};
+
 // 发送语音验证码内容
 int code = 1234;
 // 获取user信息url
@@ -97,15 +97,18 @@ int main(void)
 	if(NULL == curl) {
 		perror("curl open fail\n");
 	}
+	// 获取用户信息
 	get_user(apikey);
-	//send_sms(apikey,mobile,text);
-
+	// 发送短信
+	send_sms(apikey,mobile,text);
+	// 发送语音验证码
+	send_voice(apikey,mobile,code);
 
 	char *tmp;
 	char *tpl_value = (char *)malloc(sizeof(char) * 500);
 	bzero(tpl_value, sizeof(char)*500);
 
-	// 模板发送需要编码两次，第一次URL编码转换
+	// 模板短信发送需要编码两次，第一次URL编码转换
 	int len = 0;
 	tmp = curl_easy_escape(curl,tpl_data[0],strlen(tpl_data[0]));
 	memcpy(tpl_value+len,tmp,strlen(tmp));

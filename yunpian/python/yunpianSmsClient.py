@@ -79,20 +79,19 @@ def send_voice_sms(apikey, code, mobile):
     return response_str
 
 if __name__ == '__main__':
-    #修改为您的apikey.可在官网（http://www.yuanpian.com)登录后用户中心首页看到
+    #修改为您的apikey.可在官网（http://www.yuanpian.com)登录后获取
     apikey = "xxxxxxxxxxxxxxxx"
     #修改为您要发送的手机号码，多个号码用逗号隔开
     mobile = "xxxxxxxxxxxxxxxx"
     #修改为您要发送的短信内容
-    text = "您的验证码是1234【小绿叶】"
+    text = "您的验证码是1234【云片网】"
     #查账户信息
     print(get_user_info(apikey))
     #调用智能匹配模版接口发短信
-    #print send_sms(apikey,text,mobile)
+    print send_sms(apikey,text,mobile)
     #调用模板接口发短信
     tpl_id = 1 #对应的模板内容为：您的验证码是#code#【#company#】
-    #tpl_value = {'#send_tim*/.:#&=%e#':'123#4','#cos&=*!@#$%^&*()-_+={}\'de#':'云片@#￥网'}
-    tpl_value = {'#code#':'123#4','#company#':'小绿叶@#网'}
+    tpl_value = {'#code#':'1234','#company#':'云片网'}
     print tpl_send_sms(apikey, tpl_id, tpl_value, mobile)
     #调用模板接口发语音短信
-    #print send_voice_sms(apikey,voiceCode,mobile)
+    print send_voice_sms(apikey,voiceCode,mobile)

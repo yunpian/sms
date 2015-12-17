@@ -10,10 +10,10 @@ response.contenttype = "text/html;charset=utf-8"
 method = "POST"
 '您要发送的手机号
 mobile = "xxxxxxxxxxx"
-'修改为您的apikey(https://www.yunpian.com)登陆后用户中心可查
+'修改为您的apikey(https://www.yunpian.com)登陆官网后获取
 apikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 '发送内容
-text ="您的验证码是1234【云片网】"
+text ="【云片网】您的验证码是1234"
 '使用模板号
 tpl_id = 1
 '使用模板内容
@@ -38,8 +38,8 @@ response.write GetBody(url_tpl_sms,data_tpl_sms) & "<hr>"
 response.write GetBody(url_send_voice,data_send_voice) & "<hr>"
 
 Function GetBody(url,data) 
-	Set httpss = Server.CreateObject("MSXML2.ServerXMLHTTP") 
-	With httpss 
+	Set https = Server.CreateObject("MSXML2.ServerXMLHTTP") 
+	With https
 	.Open method, url, False
 	.setRequestHeader "Content-Type","application/x-www-form-urlencoded"
 	.Send data
@@ -71,15 +71,3 @@ end function
 response.write "<hr>"
 
 %>
-
-
-
-
-
-
-
-
-
-
-
-

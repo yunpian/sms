@@ -1,4 +1,4 @@
-// 修改为您的apikey.可在官网（https://www.yuanpian.com)登录后用户中心首页看到
+// 修改为您的apikey.可在官网（https://www.yuanpian.com)登录后获取
 var apikey = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 // 修改为您要发送的手机号码，多个号码用逗号隔开
 var mobile = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';

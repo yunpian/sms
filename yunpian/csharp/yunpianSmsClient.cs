@@ -13,9 +13,9 @@ namespace yunpianSmsClient
     {
         static void Main(string[] args)
         {
-            // 设置为您的apikey(https://www.yunpian.com)用户中心可查
+            // 设置为您的apikey(https://www.yunpian.com)登陆获取
             string apikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-            // 发送的手机号
+            // 修改为您要发送的手机号码，多个号码用逗号隔开
             string mobile = "xxxxxxxxxxx";
             // 发送模板编号
             int tpl_id = 1;

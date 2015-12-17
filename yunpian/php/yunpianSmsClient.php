@@ -1,6 +1,6 @@
 <?php
 header("Content-Type:text/html;charset=utf-8");
-$apikey = "xxxxxxxxxxx"; //请用自己的apikey代替
+$apikey = "xxxxxxxxxxx"; //修改为您的apikey(https://www.yunpian.com)登陆官网后获取
 $mobile = "xxxxxxxxxxx"; //请用自己的手机号代替
 $text="【云片网】您的验证码是1234";
 $ch = curl_init();

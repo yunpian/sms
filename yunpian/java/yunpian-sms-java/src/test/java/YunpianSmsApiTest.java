@@ -25,7 +25,7 @@ public class YunpianSmsApiTest extends TestCase {
 
     private long tpl_id = 1;
 
-    private String code = "中文验证码";
+    private String code = "1234";
 
     @Test public void testGetUserInfo() throws ApiException {
         GetUserInfoResult getUserInfoResult = YunpianSmsApi.getUserInfo();
