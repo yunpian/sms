@@ -9,9 +9,9 @@ public class SendInfo extends ApiResultBase {
 
   private Integer count;
 
-  private Integer fee;
+  private Double fee;
 
-  private Long sid;
+  private String sid;
 
   public Integer getCount() {
     return count;
@@ -21,19 +21,19 @@ public class SendInfo extends ApiResultBase {
     this.count = count;
   }
 
-  public Integer getFee() {
+  public Double getFee() {
     return fee;
   }
 
-  public void setFee(Integer fee) {
+  public void setFee(Double fee) {
     this.fee = fee;
   }
 
-  public Long getSid() {
+  public String getSid() {
     return sid;
   }
 
-  public void setSid(Long sid) {
+  public void setSid(String sid) {
     this.sid = sid;
   }
 }

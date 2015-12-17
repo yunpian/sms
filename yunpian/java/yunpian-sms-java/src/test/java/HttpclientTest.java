@@ -1,3 +1,5 @@
+package java;
+
 import junit.framework.TestCase;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,7 +13,7 @@ import org.junit.Test;
  */
 public class HttpclientTest extends TestCase {
 
-  private String url = "http://www.yunpian.com/v1/user/get.json";
+  private String url = "https://sms.yunpian.com/v1/user/get.json";
 //  private String url = "https://www.yunpian.com/v1/user/get.json";
   private int requestTimes = 500;
 

@@ -13,24 +13,24 @@ namespace yunpianSmsClient
     {
         static void Main(string[] args)
         {
-            // 设置为您的apikey(http://www.yunpian.com)用户中心可查
+            // 设置为您的apikey(https://www.yunpian.com)登陆获取
             string apikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-            // 发送的手机号
+            // 修改为您要发送的手机号码，多个号码用逗号隔开
             string mobile = "xxxxxxxxxxx";
             // 发送模板编号
             int tpl_id = 1;
             // 发送模板内容
-            string tpl_value = System.Web.HttpUtility.UrlEncode("#code#=1234&#company#=云片网", Encoding.UTF8);
+            string tpl_value = System.Web.httpsUtility.UrlEncode("#code#=1234&#company#=云片网", Encoding.UTF8);
             // 发送内容
             string text = "您的验证码是1234【云片网】";
             // 获取user信息url
-            string url_get_user     = "http://yunpian.com/v1/user/get.json";
+            string url_get_user     = "https://sms.yunpian.com/v1/user/get.json";
             // 智能模板发送短信url
-            string url_send_sms     = "http://yunpian.com/v1/sms/send.json";
+            string url_send_sms     = "https://sms.yunpian.com/v1/sms/send.json";
             // 指定模板发送短信url
-            string url_tpl_sms      = "http://yunpian.com/v1/sms/tpl_send.json";
+            string url_tpl_sms      = "https://sms.yunpian.com/v1/sms/tpl_send.json";
             // 发送语音短信url
-            string url_send_voice   = "http://voice.yunpian.com/v1/voice/send.json";
+            string url_send_voice   = "https://voice.yunpian.com/v1/voice/send.json";
 
             string data_get_user    = "apikey=" + apikey;
             string data_send_sms    = "apikey=" + apikey + "&mobile=" + mobile + "&text=" + text;
@@ -38,17 +38,24 @@ namespace yunpianSmsClient
             string data_send_voice  = "apikey=" + apikey + "&mobile=" + mobile + "&code=" + "1234";
 
            
-            HttpPost(url_get_user, data_get_user);
-            HttpPost(url_send_sms, data_send_sms);
-            HttpPost(url_tpl_sms, data_tpl_sms);
-            HttpPost(url_send_voice, data_send_voice);
+            httpsPost(url_get_user, data_get_user);
+            httpsPost(url_send_sms, data_send_sms);
+            httpsPost(url_tpl_sms, data_tpl_sms);
+            httpsPost(url_send_voice, data_send_voice);
         }
-        public static void HttpPost(string Url, string postDataStr)
+        public bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            //直接确认，否则打不开
+            return true;
+        }
+        public static void httpsPost(string Url, string postDataStr)
         {
             byte[] dataArray = Encoding.UTF8.GetBytes(postDataStr);
            // Console.Write(Encoding.UTF8.GetString(dataArray));
             
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            httpsWebRequest request = (httpsWebRequest)WebRequest.Create(Url);
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult); 
+            request.ProtocolVersion = HttpVersion.Version10;  
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = dataArray.Length;
@@ -58,7 +65,7 @@ namespace yunpianSmsClient
             dataStream.Close();
             try
             {
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                httpsWebResponse response = (httpsWebResponse)request.GetResponse();
                 StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                 String res = reader.ReadToEnd();
                 reader.Close();

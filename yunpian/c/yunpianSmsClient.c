@@ -12,29 +12,32 @@ CURLcode res;
 bingone
 
 本样例依赖libcurl库
-下载地址 http://curl.haxx.se/download.html
+下载地址 https://curl.haxx.se/download.html
 
 */
-// 修改为您的apikey
-char *apikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+// 修改为您的apikey(https://www.yunpian.com)登陆官网后获取
+char *apikey = "xxxxxxxxxxxxxxxx";
 // 修改为您要发送的手机号
-char *mobile = "xxxxxxxxxxx";
+char *mobile = "xxxxxxxxxxxxxxxx";
 // 设置您要发送的内容
-char *text = "您的验证码是1234【云片网】";
+char *text = "【云片网】您的验证码是1234";
 // 指定发送的模板id
 int tpl_id = 1;
 // 指定发送模板内容
-char *tpl_value = "#code#=1234&#company#=云片网";
+
+
+char *tpl_data[4] = {"#code#","1234","#company#","云片网"};
+
 // 发送语音验证码内容
 int code = 1234;
 // 获取user信息url
-char *url_get_user     = "http://yunpian.com/v1/user/get.json";
+char *url_get_user     = "https://sms.yunpian.com/v1/user/get.json";
 // 智能模板发送短信url
-char *url_send_sms     = "http://yunpian.com/v1/sms/send.json";
+char *url_send_sms     = "https://sms.yunpian.com/v1/sms/send.json";
 // 指定模板发送短信url
-char *url_tpl_sms      = "http://yunpian.com/v1/sms/tpl_send.json";
+char *url_tpl_sms      = "https://sms.yunpian.com/v1/sms/tpl_send.json";
 // 发送语音短信url
-char *url_send_voice   = "http://yunpian.com/v1/voice/send.json";
+char *url_send_voice   = "https://voice.yunpian.com/v1/voice/send.json";
 
 void send_data(char *url,char *data)
 {
@@ -94,15 +97,43 @@ int main(void)
 	if(NULL == curl) {
 		perror("curl open fail\n");
 	}
+	// 获取用户信息
 	get_user(apikey);
+	// 发送短信
 	send_sms(apikey,mobile,text);
-
-	// 要先进行URL编码转换
-	tpl_value = curl_easy_escape(curl,tpl_value,strlen(tpl_value));
-	//printf("%s\n",tpl_value);
-	send_tpl_sms(apikey,mobile,tpl_id,tpl_value);
+	// 发送语音验证码
 	send_voice(apikey,mobile,code);
 
+	char *tmp;
+	char *tpl_value = (char *)malloc(sizeof(char) * 500);
+	bzero(tpl_value, sizeof(char)*500);
+
+	// 模板短信发送需要编码两次，第一次URL编码转换
+	int len = 0;
+	tmp = curl_easy_escape(curl,tpl_data[0],strlen(tpl_data[0]));
+	memcpy(tpl_value+len,tmp,strlen(tmp));
+	len += strlen(tmp);
+	tpl_value[len++] = '=';
+
+	tmp = curl_easy_escape(curl,tpl_data[1],strlen(tpl_data[1]));
+	memcpy(tpl_value+len,tmp,strlen(tmp));
+	len += strlen(tmp);
+	tpl_value[len++] = '&';
+
+	tmp = curl_easy_escape(curl,tpl_data[2],strlen(tpl_data[2]));
+	memcpy(tpl_value+len,tmp,strlen(tmp));
+	len += strlen(tmp);
+	tpl_value[len++] = '=';
+
+	tmp = curl_easy_escape(curl,tpl_data[3],strlen(tpl_data[3]));
+	memcpy(tpl_value+len,tmp,strlen(tmp));
+	len += strlen(tmp);
+
+	tmp=tpl_value;
+	// 第二次URL编码
+	tpl_value = curl_easy_escape(curl,tpl_value,strlen(tpl_value));
+	send_tpl_sms(apikey,mobile,tpl_id,tpl_value);
+	free(tmp);
 
 	curl_easy_cleanup(curl);
 	

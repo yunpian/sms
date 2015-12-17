@@ -16,7 +16,7 @@ public class ApiConfig {
       //ignore
     }
   }
-
+  public static final String getEncode(){return properties.getProperty("api.encoding");}
   public static  final String getApiKey(){
     return properties.getProperty("APIKEY");
   }
@@ -30,7 +30,10 @@ public class ApiConfig {
   }
 
   public static final String getTplSendSmsApi() {
-    return properties.getProperty("send.tpl.send.api");
+    return properties.getProperty("send.tpl.api");
+  }
+  public static final String getVoiceSendApi() {
+    return properties.getProperty("send.voice.api");
   }
 
   public static final String getEncoding() {
