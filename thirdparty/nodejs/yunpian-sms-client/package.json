@@ -1,6 +1,6 @@
 {
   "name": "yunpian-sms-client",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "yunpian sms nodejs client",
   "main": "lib/index.js",
   "scripts": {
@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/CowPanda/yunpian-sms-client#readme",
   "dependencies": {
-    "restify": "^3.0.3"
+    "bluebird": "^3.4.0",
+    "restify": "^3.0.3",
+    "underscore": "^1.8.3"
   }
 }
