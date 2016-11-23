@@ -68,3 +68,27 @@ provider.sendSingleTplSms({
 }).catch(function (err) {
     console.log(err);
 });
+
+//获取短信回复记录
+provider.getSmsReplyRecord({
+    start_time: '2016-08-11 00:00:00',
+    end_time: '2017-08-11 00:00:00',
+    page_num:1, //页码，默认1，必填
+    page_size:20 //页大小，最大允许100，必填,
+    /*mobile:13xxxxxx*///填写时只查该手机号的回复，不填时查所有的回复 ,可选
+}).then(function (res) {
+    if(res) {
+        console.log(res);
+    }
+}).catch(function (e) {
+    console.log(e);
+});
+
+//检查内容是否包含屏蔽词
+provider.isBlackWord('发票,微贷,贷款').then(function (res) {
+    if (res) { //返回屏蔽词数组
+        console.log(res);
+    }
+}).catch(function (e) {
+    console.log(e);
+});

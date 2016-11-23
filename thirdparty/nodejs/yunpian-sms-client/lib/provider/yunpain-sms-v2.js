@@ -153,6 +153,62 @@ smsProvider.prototype.getSmsSendRecord = function (data) {
     return beginSendRequest(data, config.smsSendRecordPath, self);
 }
 
+/**
+ * 获取短信回复记录
+ * @param data {start_time:?,end_time:?,page_num:?,page_size:?,mobile:?}
+ */
+smsProvider.prototype.getSmsReplyRecord = function (data) {
+    if (!data.start_time) {
+        throw new Error("「短信发送开始时间不能为空」!");
+    }
+
+    if (!data.end_time) {
+        throw new Error("「短信发送结束时间不能为空」!");
+    }
+
+    if (!data.page_num) {
+        data.page_num = 1;
+    }
+
+    if (!data.page_size) {
+        data.page_size = 20;
+    }
+
+    var self = this;
+    return beginSendRequest(data, config.smsGetReplyRecordPath, self);
+}
+
+/**
+ * 检查是否屏蔽词
+ * @param text
+ */
+smsProvider.prototype.isBlackWord = function (text) {
+    if (!text || text.length < 1) {
+        throw new Error("「要检查的屏蔽词不能为空」!");
+    }
+
+    var self = this;
+    return beginSendRequest({text: text}, config.smsVerifyIsBlackWordPath, self);
+}
+
+/**
+ * 自定义调用v2版本指定的API
+ * @param data
+ * @param path 如:/v2/xxxx
+ */
+smsProvider.prototype.getCustomReqSmsAPI = function (data, path) {
+    if (!data) {
+        throw new Error("「发送的数据不能为空」!");
+    }
+
+    if (!path) {
+        throw new Error("「path不能为空」!");
+    }
+
+    var self = this;
+    return beginSendRequest(data, path, self);
+}
+
 
 function beginSendRequest(data, path, self) {
     var postData = getFormatPost(data, path, self.apiKey);

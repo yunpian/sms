@@ -43,6 +43,9 @@ t.sendSMSByTemplate(function (err, result) {
 });
 
 //=================================================
+/**
+ * 自行拼接query发送示例
+ */
 var yunpainSMSClient = require('yunpian-sms-client').v1;
 var c = new yunpainSMSClient({
     apiKey: 'your appkey',

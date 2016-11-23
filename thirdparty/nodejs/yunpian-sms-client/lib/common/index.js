@@ -6,7 +6,7 @@
 var fs = require('fs');
 var os = require('os');
 var path = require('path');
-var apiVersion = JSON.parse(fs.readFileSync(path.normalize(__dirname + '../../../package.json'), 'utf8')).version;
+var apiVersion = require('../../package').version;
 
 /**
  * 默认userAgent--若用户未设置

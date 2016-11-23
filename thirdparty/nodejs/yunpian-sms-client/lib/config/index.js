@@ -32,7 +32,10 @@ var config = {
         smsAccountInfoPath: '/v2/user/get.json',
         smsMultiSendPath: '/v2/sms/multi_send.json',
         smsSendStatusReportPath: '/v2/sms/pull_status.json',
-        smsSendRecordPath: '/v2/sms/get_record.json'
+        smsSendRecordPath: '/v2/sms/get_record.json',
+        smsGetReplyRecordPath: '/v2/sms/get_reply.json',
+        smsVerifyIsBlackWordPath: '/v2/sms/get_black_word.json'
+
     },
     apiVersion: apiVersion,
     defaultUserAgent: userAgent,
