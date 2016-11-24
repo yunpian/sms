@@ -8,13 +8,13 @@ Minimum, Flexible, Scalable.
 
 支持Lazy Require。
 
-项目主页： <https://github.com/willin/yunpian-sdk>
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [安装和使用](#%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8)
+- [手机号合法性校验](#%E6%89%8B%E6%9C%BA%E5%8F%B7%E5%90%88%E6%B3%95%E6%80%A7%E6%A0%A1%E9%AA%8C)
 - [已支持的接口](#%E5%B7%B2%E6%94%AF%E6%8C%81%E7%9A%84%E6%8E%A5%E5%8F%A3)
   - [USER - 账户API](#user---%E8%B4%A6%E6%88%B7api)
   - [TPL - 模板API](#tpl---%E6%A8%A1%E6%9D%BFapi)
@@ -42,6 +42,23 @@ var options = {
 };
 ```
 
+ES7:
+
+```js
+import {USER} from 'yunpian-sdk';
+const user = new USER({
+  apikey: 'xxxx'
+});
+// Within Async Func
+(async() => {
+  const result = await user.set({
+    emergency_contact: 'Willin',
+    emergency_mobile: '1xxxxxxxxxx'
+  });
+  // xxxx
+});
+```
+
 ES5:
 
 ```js
@@ -66,22 +83,40 @@ user.set({
 });
 ```
 
-ES7:
+## 手机号合法性校验
+
+ES7 示例代码：
 
 ```js
-import {USER} from 'yunpian-sdk';
-const user = new USER({
-  apikey: 'xxxx'
-});
-// Within Async Func
-(async() => {
-  const result = await user.set({
-    emergency_contact: 'Willin',
-    emergency_mobile: '1xxxxxxxxxx'
-  });
-  // xxxx
-});
+import {phone} from 'yunpian-sdk';
+
+// 加区号匹配国际各国号码格式
+phone('+8613312345678'); // true
+phone('+85265698900'); // true
+phone('+112345678'); // false
+
+// 不加区号按中国号码匹配
+phone('13312341234'); // true
+phone('112345678'); // false
+
+// 按地区匹配
+// 地区码使用3位缩写国家代码（大写）
+phone('+18175698900', 'USA'); // true
+phone('13212345678', 'CHN'); // true
+phone('+18175698900', 'CHN'); // false
+phone('13212345678', 'HKG'); // false
 ```
+
+ES5 示例代码：
+
+```js
+var phone = require('yunpian-sdk').phone;
+
+phone('+8613312345678'); // true
+phone('13312341234'); // true
+phone('13212345678', 'CHN'); // true
+```
+
 
 ## 已支持的接口
 
@@ -150,7 +185,3 @@ API文档参考： <https://www.yunpian.com/api2.0/flow.html>
 ## License
 
 MIT
-
-通过支付宝捐赠：
-
-![qr](https://cloud.githubusercontent.com/assets/1890238/15489630/fccbb9cc-2193-11e6-9fed-b93c59d6ef37.png)

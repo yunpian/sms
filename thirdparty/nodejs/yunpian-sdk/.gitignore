@@ -1,0 +1,7 @@
+.idea/
+node_modules/
+dist/
+demo/
+
+*.log
+dump.rdb
