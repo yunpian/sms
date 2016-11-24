@@ -1,0 +1,30 @@
+{
+  "name": "yunpian-sms-client",
+  "version": "2.0.2",
+  "description": "yunpian sms nodejs client",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CowPanda/yunpian-sms.git"
+  },
+  "keywords": [
+    "yunpian sms-client"
+  ],
+  "author": "cowpanda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CowPanda/yunpian-sms-client/issues"
+  },
+  "homepage": "https://github.com/CowPanda/yunpian-sms-client#readme",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "restify": "^4.0.3",
+    "underscore": "^1.8.3"
+  }
+}
