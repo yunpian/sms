@@ -14,4 +14,7 @@
 里面均列出了比较流行的后端开发语言作为目录，不同语言的代码应该放到相应的语言目录下面。  
 尽量做到不依赖第三方lib，可以通过修改配置文件达到配置APPKEY的目的，减少最终用户使用时的开发量。  
 
+## 联系我们
+[技术支持 QQ](https://static.meiqia.com/dist/standalone.html?eid=30951&groupid=0d20ab23ab4702939552b3f81978012f&metadata={"name":"github"})
+
 
