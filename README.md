@@ -17,8 +17,7 @@
 ## 联系我们
 [技术支持 QQ](https://static.meiqia.com/dist/standalone.html?eid=30951&groupid=0d20ab23ab4702939552b3f81978012f&metadata={"name":"github"})
 
-SDK开源QQ群(非官方，找个地方交流)
+SDK开源QQ群: 106469530 (找个地方交流)
 
-<img src="doc/sdk_qq.jpeg" width="15%" alt="SDK开源QQ群"/>
 
 
